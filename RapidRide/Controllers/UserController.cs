@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RapidRide.Entities;
 using RapidRide;
 
-namespace MoveEasyV2.Controllers
+namespace RapidRide.Controllers
 {
 
     [Route("api/[controller]")]

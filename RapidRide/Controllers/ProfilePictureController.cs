@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RapidRide;
 
-namespace MoveEasyV2.Controllers
+namespace RapidRide.Controllers
 {
     [ApiController]
     public class ProfilePictureController : ControllerBase

@@ -5,7 +5,7 @@ using RapidRide;
 using RapidRide.Entities;
 
 
-namespace MoveEasyV2.Controllers
+namespace RapidRide.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

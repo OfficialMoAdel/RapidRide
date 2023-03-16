@@ -24,19 +24,46 @@ namespace RapidRide.Controllers
             return await _context.Cars.ToListAsync();
         }
 
-        // GET: api/Car/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> GetCar(int id)
+        // GET: api/Car/5//   //GET api/Car?bookingId=1&tripId=2&messageId=3&isActive=true&city=NewYork&carId=123
+        [HttpGet]
+        public ActionResult<IEnumerable<Car>> GetCars([FromQuery] int? bookingId, [FromQuery] int? tripId, [FromQuery] int? messageId, [FromQuery] bool? isActive, [FromQuery] string? city, [FromQuery] int? carId)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var cars = _context.Cars.Include(c => c.Trips).Include(c => c.Messages).Include(c => c.Bookings).AsQueryable();
 
-            if (car == null)
+            if (bookingId.HasValue)
             {
-                return NotFound();
+                cars = cars.Where(c => c.Bookings.Any(b => b.BookingId == bookingId.Value));
             }
 
-            return car;
+            if (tripId.HasValue)
+            {
+                cars = cars.Where(c => c.Trips.Any(t => t.TripId == tripId.Value));
+            }
+
+            if (messageId.HasValue)
+            {
+                cars = cars.Where(c => c.Messages.Any(m => m.MessageId == messageId.Value));
+            }
+
+            if (isActive.HasValue)
+            {
+                cars = cars.Where(c => c.IsActive == isActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                cars = cars.Where(c => c.City == city);
+            }
+
+            if (carId.HasValue)
+            {
+                cars = cars.Where(c => c.CarId == carId.Value);
+            }
+
+            return Ok(cars.ToList());
         }
+
+        // Other controller actions (e.g. GetCarById, CreateCar, UpdateCar, DeleteCar) can be added here
 
         // PUT: api/Car/5
         [HttpPut("{id}")]

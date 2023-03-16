@@ -35,6 +35,53 @@ namespace RapidRide.Controllers
 
             return microBus;
         }
+        //api/buses?bookingId=123&tripId=456&isActive=true&city=New%20York&station=Central%20Station
+
+        public ActionResult<IEnumerable<Bus>> GetBuses([FromQuery] int? bookingId, [FromQuery] int? tripId, [FromQuery] int? busId, [FromQuery] bool? isActive, [FromQuery] string? city, [FromQuery] string? station)
+        {
+            var busesQuery = _context.Buses.Include(b => b.Trips).Include(b => b.Bookings).AsQueryable();
+
+            if (bookingId.HasValue)
+            {
+                busesQuery = busesQuery.Where(b => b.Bookings.Any(bo => bo.BookingId == bookingId.Value));
+            }
+
+            if (tripId.HasValue)
+            {
+                busesQuery = busesQuery.Where(b => b.Trips.Any(t => t.TripId == tripId.Value));
+            }
+
+            if (busId.HasValue)
+            {
+                busesQuery = busesQuery.Where(b => b.BusId == busId.Value);
+            }
+
+            if (isActive.HasValue)
+            {
+                busesQuery = busesQuery.Where(b => b.IsActive == isActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                busesQuery = busesQuery.Where(b => b.City == city);
+            }
+
+            if (!string.IsNullOrEmpty(station))
+            {
+                busesQuery = busesQuery.Where(b => b.station == station);
+            }
+
+            var buses = busesQuery.ToList();
+
+            if (buses == null || buses.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return buses;
+        }
+
+
 
         [HttpPost]
         public async Task<ActionResult<MicroBus>> CreateMicroBus(MicroBus microBus)

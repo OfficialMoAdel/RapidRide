@@ -26,6 +26,7 @@ namespace RapidRide.Controllers
         }
 
         // GET: api/Trip/5
+        //[HttpGet("{id}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTrip([FromRoute] int id)
         {
@@ -43,6 +44,60 @@ namespace RapidRide.Controllers
 
             return Ok(trip);
         }
+        [HttpGet]
+        public ActionResult<IEnumerable<Trip>> GetTrips([FromQuery] int? id, [FromQuery] int? userId, [FromQuery] DateTime? pickupTime, [FromQuery] float? distance, [FromQuery] float? cost, [FromQuery] int? fareId, [FromQuery] int? bookingId, [FromQuery] int? busId, [FromQuery] int? feedbackId)
+        {
+            var trips = _context.Trips.Include(t => t.Fare).Include(t => t.Booking).Include(t => t.Bus).Include(t => t.Feedbacks).AsQueryable();
+
+            if (id.HasValue)
+            {
+                trips = trips.Where(t => t.TripId == id.Value);
+            }
+
+            if (userId.HasValue)
+            {
+                trips = trips.Where(t => t.UserId == userId.Value);
+            }
+
+            if (pickupTime.HasValue)
+            {
+                trips = trips.Where(t => t.PickupTime == pickupTime.Value);
+            }
+
+            if (distance.HasValue)
+            {
+                trips = trips.Where(t => t.Distance == distance.Value);
+            }
+
+            if (cost.HasValue)
+            {
+                trips = trips.Where(t => t.Cost == cost.Value);
+            }
+
+            if (fareId.HasValue)
+            {
+                trips = trips.Where(t => t.FareId == fareId.Value);
+            }
+
+            if (bookingId.HasValue)
+            {
+                trips = trips.Where(t => t.BookingId == bookingId.Value);
+            }
+
+            if (busId.HasValue)
+            {
+                trips = trips.Where(t => t.BusId == busId.Value);
+            }
+
+            if (feedbackId.HasValue)
+            {
+                trips = trips.Where(t => t.Feedbacks.Any(f => f.FeedbackId == feedbackId.Value));
+            }
+
+            return Ok(trips.ToList());
+        }
+
+
 
         // PUT: api/Trip/5
         [HttpPut("{id}")]

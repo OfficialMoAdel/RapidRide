@@ -45,6 +45,9 @@ namespace RapidRide.Controllers
             return Ok(user);
         }
 
+
+
+
         // POST: api/User
         [HttpPost]
         public IActionResult PostUser([FromBody] User user)
@@ -122,3 +125,4 @@ namespace RapidRide.Controllers
         }
     }
 }
+

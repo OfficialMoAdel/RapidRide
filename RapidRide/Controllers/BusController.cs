@@ -24,9 +24,9 @@ namespace RapidRide.Controllers
             return await _context.Buses.ToListAsync();
         }
 
-        // GET: api/Bus/5
+        // GET: api/Bus/5  
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bus>> GetBus(int id)
+        public async Task<IActionResult> GetBus(int id)
         {
             var bus = await _context.Buses.FindAsync(id);
 
@@ -35,8 +35,48 @@ namespace RapidRide.Controllers
                 return NotFound();
             }
 
-            return bus;
+            return Ok(bus);
         }
+
+        [HttpGet]
+
+        public ActionResult<IEnumerable<Bus>> GetBuses([FromQuery] int? bookingId, [FromQuery] int? tripId, [FromQuery] int? busId, [FromQuery] bool? isActive, [FromQuery] string? city, [FromQuery] string? station)
+        {
+            var buses = _context.Buses.Include(b => b.Trips).Include(b => b.Bookings).AsQueryable();
+
+            if (bookingId.HasValue)
+            {
+                buses = buses.Where(b => b.Bookings.Any(bo => bo.BookingId == bookingId.Value));
+            }
+
+            if (tripId.HasValue)
+            {
+                buses = buses.Where(b => b.Trips.Any(t => t.TripId == tripId.Value));
+            }
+
+            if (busId.HasValue)
+            {
+                buses = buses.Where(b => b.BusId == busId.Value);
+            }
+
+            if (isActive.HasValue)
+            {
+                buses = buses.Where(b => b.IsActive == isActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                buses = buses.Where(b => b.City == city);
+            }
+
+            if (!string.IsNullOrEmpty(station))
+            {
+                buses = buses.Where(b => b.station == station);
+            }
+
+            return Ok(buses.ToList());
+        }
+
 
         // PUT: api/Bus/5
         [HttpPut("{id}")]

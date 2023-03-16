@@ -36,6 +36,72 @@ namespace RapidRide.Controllers
 
             return message;
         }
+        [HttpGet]
+        public ActionResult<IEnumerable<Message>> GetMessages([FromQuery] int? userId, [FromQuery] int? carId, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] int? messageId)
+        {
+            var messages = _context.Messages.AsQueryable();
+
+            if (messageId.HasValue)
+            {
+                var message = messages.FirstOrDefault(m => m.MessageId == messageId.Value);
+
+                if (message == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(message);
+            }
+
+            if (userId.HasValue)
+            {
+                messages = messages.Where(m => m.UserId == userId.Value);
+            }
+
+            if (carId.HasValue)
+            {
+                messages = messages.Where(m => m.CarId == carId.Value);
+            }
+
+            if (startDate.HasValue)
+            {
+                messages = messages.Where(m => m.Date >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                messages = messages.Where(m => m.Date <= endDate.Value);
+            }
+
+            return Ok(messages.ToList());
+        }
+
+
+        public ActionResult<IEnumerable<Message>> GetMessages([FromQuery] int? userId, [FromQuery] int? carId, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        {
+            var messages = _context.Messages.AsQueryable();
+
+            if (userId.HasValue)
+            {
+                messages = messages.Where(m => m.UserId == userId.Value);
+            }
+
+            if (carId.HasValue)
+            {
+                messages = messages.Where(m => m.CarId == carId.Value);
+            }
+            if (startDate.HasValue)
+            {
+                messages = messages.Where(m => m.Date >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                messages = messages.Where(m => m.Date <= endDate.Value);
+            }
+
+            return Ok(messages.ToList());
+        }
 
         // PUT: api/Message/5
         [HttpPut("{id}")]

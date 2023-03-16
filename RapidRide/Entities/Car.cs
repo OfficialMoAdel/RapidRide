@@ -19,7 +19,7 @@ namespace RapidRide.Entities
         public string? Address { get; set; }
         public string? City { get; set; }
         public int? Password { get; set; }
-        public int? IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public ICollection<Trip>? Trips { get; set; }
         public ICollection<Message>? Messages { get; set; }
         public ICollection<Booking>? Bookings { get; set; }

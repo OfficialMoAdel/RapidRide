@@ -18,7 +18,7 @@ namespace RapidRide.Entities
         public string? Address { get; set; }
         public string? City { get; set; }
         public int? Password { get; set; }
-        public int? IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public string? PaymentMethod { get; set; }
         public int? WalletId { get; set; }
         [ForeignKey("WalletId")]

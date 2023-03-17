@@ -26,7 +26,7 @@ namespace RapidRide.Controllers
         }
 
         // GET: api/Trip/5
-        //[HttpGet("{id}")]
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTrip([FromRoute] int id)
         {
@@ -44,15 +44,12 @@ namespace RapidRide.Controllers
 
             return Ok(trip);
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<Trip>> GetTrips([FromQuery] int? id, [FromQuery] int? userId, [FromQuery] DateTime? pickupTime, [FromQuery] float? distance, [FromQuery] float? cost, [FromQuery] int? fareId, [FromQuery] int? bookingId, [FromQuery] int? busId, [FromQuery] int? feedbackId)
+        [HttpGet("getbyquery")]
+        public ActionResult<IEnumerable<Trip>> GetTrip([FromQuery] int? userId, [FromQuery] DateTime? pickupTime, [FromQuery] float? distance, [FromQuery] float? cost, [FromQuery] int? fareId, [FromQuery] int? bookingId, [FromQuery] int? busId, [FromQuery] int? feedbackId)
         {
             var trips = _context.Trips.Include(t => t.Fare).Include(t => t.Booking).Include(t => t.Bus).Include(t => t.Feedbacks).AsQueryable();
 
-            if (id.HasValue)
-            {
-                trips = trips.Where(t => t.TripId == id.Value);
-            }
+
 
             if (userId.HasValue)
             {

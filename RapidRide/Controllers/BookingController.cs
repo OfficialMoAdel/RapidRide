@@ -37,6 +37,34 @@ namespace RapidRide.Controllers
 
             return booking;
         }
+        [HttpGet("getbyquery")]
+        public async Task<ActionResult<IEnumerable<Booking>>> GetBooking([FromQuery] int? tripId, [FromQuery] int? bookingId, [FromQuery] DateTime? bookingTime, [FromQuery] string? bookingLocation)
+        {
+            var bookings = _context.Bookings.AsQueryable();
+
+            if (tripId.HasValue)
+            {
+                bookings = bookings.Where(b => b.TripId == tripId.Value);
+            }
+
+            if (bookingId.HasValue)
+            {
+                bookings = bookings.Where(b => b.BookingId == bookingId.Value);
+            }
+
+            if (bookingTime.HasValue)
+            {
+                bookings = bookings.Where(b => b.BookingTime == bookingTime.Value);
+            }
+
+            if (!string.IsNullOrEmpty(bookingLocation))
+            {
+                bookings = bookings.Where(b => b.BookingLocation == bookingLocation);
+            }
+
+            return await bookings.ToListAsync();
+        }
+
 
 
         // POST: api/Booking

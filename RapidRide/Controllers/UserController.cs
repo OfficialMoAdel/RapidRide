@@ -45,6 +45,46 @@ namespace RapidRide.Controllers
             return Ok(user);
         }
 
+        [HttpGet("getbyquery")]
+        public ActionResult<IEnumerable<User>> Get([FromQuery] bool? isActive, [FromQuery] int? tripId, [FromQuery] int? bookingId, [FromQuery] int? messageId, [FromQuery] int? walletId)
+        {
+            var usersQuery = _context.Users.Include(u => u.Trips).Include(u => u.Bookings).Include(u => u.Messages).Include(u => u.Wallet).AsQueryable();
+
+            if (isActive.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.IsActive == isActive.Value);
+            }
+
+            if (tripId.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.Trips.Any(t => t.TripId == tripId.Value));
+            }
+
+            if (bookingId.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.Bookings.Any(b => b.BookingId == bookingId.Value));
+            }
+
+            if (messageId.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.Messages.Any(m => m.MessageId == messageId.Value));
+            }
+
+            if (walletId.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.WalletId == walletId.Value);
+            }
+
+            var users = usersQuery.ToList();
+
+            if (users == null || users.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+
 
 
         // POST: api/User

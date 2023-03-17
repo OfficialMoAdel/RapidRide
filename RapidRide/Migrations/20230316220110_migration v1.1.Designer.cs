@@ -12,8 +12,8 @@ using RapidRide;
 namespace RapidRide.Migrations
 {
     [DbContext(typeof(RapidRideDbContext))]
-    [Migration("20230227222058_migration v1.5")]
-    partial class migrationv15
+    [Migration("20230316220110_migration v1.1")]
+    partial class migrationv11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,8 +87,8 @@ namespace RapidRide.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IsActive")
-                        .HasColumnType("int");
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LicensePlate")
                         .HasColumnType("nvarchar(max)");
@@ -142,8 +142,8 @@ namespace RapidRide.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IsActive")
-                        .HasColumnType("int");
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LicensePlate")
                         .HasColumnType("nvarchar(max)");
@@ -326,8 +326,8 @@ namespace RapidRide.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IsActive")
-                        .HasColumnType("int");
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LicensePlate")
                         .HasColumnType("nvarchar(max)");
@@ -512,8 +512,8 @@ namespace RapidRide.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IsActive")
-                        .HasColumnType("int");
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -536,7 +536,7 @@ namespace RapidRide.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WalletId")
+                    b.Property<int?>("WalletId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");
@@ -750,8 +750,7 @@ namespace RapidRide.Migrations
                     b.HasOne("RapidRide.Entities.Wallet", "Wallet")
                         .WithMany()
                         .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Wallet");
                 });

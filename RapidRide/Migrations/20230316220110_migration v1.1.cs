@@ -4,7 +4,7 @@
 
 namespace RapidRide.Migrations
 {
-    public partial class migrationv12 : Migration
+    public partial class migrationv11 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -38,44 +38,6 @@ namespace RapidRide.Controllers
 
             return feedback;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacks(
-    [FromQuery] int? tripId,
-    [FromQuery] int? feedbackId,
-    [FromQuery] int? rating,
-    [FromQuery] string? comment)
-        {
-            var feedbacks = _context.Feedbacks.AsQueryable();
-
-            if (tripId.HasValue)
-            {
-                feedbacks = feedbacks.Where(f => f.TripId == tripId.Value);
-            }
-
-            if (feedbackId.HasValue)
-            {
-                feedbacks = feedbacks.Where(f => f.FeedbackId == feedbackId.Value);
-            }
-
-            if (rating.HasValue)
-            {
-                feedbacks = feedbacks.Where(f => f.Rating == rating.Value);
-            }
-
-            if (!string.IsNullOrEmpty(comment))
-            {
-                feedbacks = feedbacks.Where(f => f.Comment.Contains(comment));
-            }
-
-            var result = await feedbacks.ToListAsync();
-
-            if (result.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }
         // PUT: api/Feedback/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFeedback(int id, Feedback feedback)

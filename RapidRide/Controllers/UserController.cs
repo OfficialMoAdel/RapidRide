@@ -47,7 +47,6 @@ namespace RapidRide.Controllers
 
 
 
-
         // POST: api/User
         [HttpPost]
         public IActionResult PostUser([FromBody] User user)

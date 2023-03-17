@@ -97,8 +97,6 @@ namespace RapidRide.Controllers
             return Ok(trips.ToList());
         }
 
-
-
         // PUT: api/Trip/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrip([FromRoute] int id, [FromBody] Trip trip)

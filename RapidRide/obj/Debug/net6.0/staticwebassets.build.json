@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "XQkhUQ9HayOZ/0exm2NkZhuLO4IXYZo/tJz4XXReX+U=",
+  "Hash": "JSFxDV8CnHz//ITMutwG9g2JbYfTmPunn9SWdWx5ySc=",
   "Source": "RapidRide",
   "BasePath": "_content/RapidRide",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "RapidRide\\wwwroot",
+      "Source": "RapidRide",
+      "ContentRoot": "C:\\Users\\Public\\RapidRide\\RapidRide\\wwwroot\\",
+      "BasePath": "_content/RapidRide",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

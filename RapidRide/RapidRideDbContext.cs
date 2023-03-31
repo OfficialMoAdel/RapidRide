@@ -23,6 +23,8 @@ namespace RapidRide
         public DbSet<Withdrawal> Withdrawals { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<MicroBus> MicroBuses { get; set; }
+        public DbSet<Token> Tokens { get; set; }
+        public DbSet<RechargeCard> RechargeCards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

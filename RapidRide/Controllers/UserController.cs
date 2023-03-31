@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RapidRide.Entities;
-using RapidRide;
+using static RapidRide.Entities.User;
+using RapidRide.NewFolder;
 
 namespace RapidRide.Controllers
 {
@@ -12,11 +13,15 @@ namespace RapidRide.Controllers
     public class UserController : ControllerBase
     {
         private readonly RapidRideDbContext _context;
+        private readonly AuthService _authService;
+        private readonly IWebHostEnvironment _env;
 
 
-        public UserController(RapidRideDbContext context)
+        public UserController(RapidRideDbContext context, AuthService authService, IWebHostEnvironment env)
         {
             _context = context;
+            _authService = authService;
+            _env = env;
         }
 
         // GET: api/User
@@ -162,6 +167,71 @@ namespace RapidRide.Controllers
         {
             return _context.Users.Any(e => e.UserId == id);
         }
+
+
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] UserRegistrationModel model)
+        {
+            var user = _authService.Register(model.Email, model.NationalId, model.Password);
+            return Ok(user);
+        }
+
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserLoginModel model)
+        {
+            var token = _authService.Login(model.Login, model.Password);
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
+        }
+
+        [HttpPost("UploadProfilePicture/{userId}")]
+        public async Task<IActionResult> UploadProfilePicture(int userId, IFormFile file)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("File not provided.");
+            }
+
+            // Save the image to a folder named "ProfilePictures"
+            var folderPath = Path.Combine(_env.WebRootPath, "ProfilePictures");
+            Directory.CreateDirectory(folderPath);
+
+            var fileName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Update the user's profile picture URL
+            var baseUrl = $"{this.Request.Scheme}://{this.Request.Host}";
+            var relativePath = $"/ProfilePictures/{fileName}";
+            user.ProfilePicture = $"{baseUrl}{relativePath}";
+
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
+        }
+
+
     }
+
+
+
+
+
+
 }
 

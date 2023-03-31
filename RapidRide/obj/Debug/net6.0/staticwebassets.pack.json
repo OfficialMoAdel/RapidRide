@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Public\\RapidRide\\RapidRide\\wwwroot\\ProfilePictures\\sb4pmd5b.j4k.jpg",
+      "PackagePath": "staticwebassets\\ProfilePictures\\sb4pmd5b.j4k.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.RapidRide.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.RapidRide.props",
+      "PackagePath": "build\\RapidRide.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.RapidRide.props",
+      "PackagePath": "buildMultiTargeting\\RapidRide.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.RapidRide.props",
+      "PackagePath": "buildTransitive\\RapidRide.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

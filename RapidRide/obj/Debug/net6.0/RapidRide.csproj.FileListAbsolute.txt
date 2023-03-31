@@ -65,3 +65,5 @@ C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\refint\RapidRide.dll
 C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\RapidRide.pdb
 C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\RapidRide.genruntimeconfig.cache
 C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\ref\RapidRide.dll
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\RapidRide.staticwebassets.runtime.json

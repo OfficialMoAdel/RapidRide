@@ -38,7 +38,6 @@ namespace RapidRide.Controllers
               var activeCards = _context.RechargeCards.Where(c => c.WalletId == walletId && c.IsActive == true).ToList();
               return activeCards;
           }
-          */
 
         [HttpPost]
         public async Task<ActionResult<RechargeCard>> CreateRechargeCard(RechargeCard rechargeCard)
@@ -60,7 +59,6 @@ namespace RapidRide.Controllers
             _context.Entry(rechargeCard).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -79,5 +77,4 @@ namespace RapidRide.Controllers
             return NoContent();
         }
     }
-
 }

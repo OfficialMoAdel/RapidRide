@@ -228,10 +228,5 @@ namespace RapidRide.Controllers
 
     }
 
-
-
-
-
-
 }
 

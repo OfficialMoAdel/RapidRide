@@ -67,3 +67,7 @@ C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\RapidRide.genruntimeconfig.
 C:\Users\Public\RapidRide\RapidRide\obj\Debug\net6.0\ref\RapidRide.dll
 C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\RapidRide.staticwebassets.runtime.json
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\EPPlus.dll
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\EPPlus.System.Drawing.dll
+C:\Users\Public\RapidRide\RapidRide\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll

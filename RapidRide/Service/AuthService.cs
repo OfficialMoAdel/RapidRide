@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RapidRide.NewFolder
+namespace RapidRide.Service
 {
 
     public class AuthService

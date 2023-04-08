@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RapidRide.Entities;
 using RapidRide;
+using System;
 
 namespace RapidRide.Controllers
 {
@@ -10,11 +11,15 @@ namespace RapidRide.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly RapidRideDbContext _context;
 
-        public CarController(RapidRideDbContext context)
+        private readonly RapidRideDbContext _context;
+        private readonly IWebHostEnvironment _env;
+
+
+        public CarController(RapidRideDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: api/Car
@@ -125,6 +130,46 @@ namespace RapidRide.Controllers
         {
             return _context.Cars.Any(e => e.CarId == id);
         }
+
+
+        [HttpPost("UploadProfilePicture/{carId}")]
+        public async Task<IActionResult> UploadProfilePicture(int carId, IFormFile file)
+        {
+            var car = await _context.Cars.FindAsync(carId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("File not provided.");
+            }
+
+            // Save the image to a folder named "ProfilePictures"
+            var folderPath = Path.Combine(_env.WebRootPath, "ProfilePictures");
+            Directory.CreateDirectory(folderPath);
+            var fileName = "car_" + carId.ToString() + Path.GetExtension(file.FileName);
+
+            //var fileName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Update the car's profile picture URL
+            var baseUrl = $"{this.Request.Scheme}://{this.Request.Host}";
+            var relativePath = $"/ProfilePictures/{fileName}";
+            car.ProfilePicture = $"{baseUrl}{relativePath}";
+
+            _context.Entry(car).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(car);
+        }
+
     }
 
 }

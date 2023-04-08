@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RapidRide;
 
@@ -11,9 +12,10 @@ using RapidRide;
 namespace RapidRide.Migrations
 {
     [DbContext(typeof(RapidRideDbContext))]
-    partial class RapidRideDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230404191328_migration v1.4")]
+    partial class migrationv14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

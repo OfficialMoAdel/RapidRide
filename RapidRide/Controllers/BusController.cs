@@ -10,11 +10,15 @@ namespace RapidRide.Controllers
     [ApiController]
     public class BusController : ControllerBase
     {
-        private readonly RapidRideDbContext _context;
 
-        public BusController(RapidRideDbContext context)
+        private readonly RapidRideDbContext _context;
+        private readonly IWebHostEnvironment _env;
+
+
+        public BusController(RapidRideDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: api/Bus
@@ -132,6 +136,43 @@ namespace RapidRide.Controllers
             await _context.SaveChangesAsync();
 
             return bus;
+        }
+
+        [HttpPost("UploadProfilePicture/{busId}")]
+        public async Task<IActionResult> UploadBusPicture(int busId, IFormFile file)
+        {
+            var bus = await _context.Buses.FindAsync(busId);
+            if (bus == null)
+            {
+                return NotFound();
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("File not provided.");
+            }
+
+            // Save the image to a folder named "BusPictures"
+            var folderPath = Path.Combine(_env.WebRootPath, "ProfilePictures");
+            Directory.CreateDirectory(folderPath);
+
+            var fileName = "bus_" + busId.ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(folderPath, fileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Update the bus's profile picture URL
+            var baseUrl = $"{this.Request.Scheme}://{this.Request.Host}";
+            var relativePath = $"/ProfilePictures/{fileName}";
+            bus.ProfilePicture = $"{baseUrl}{relativePath}";
+
+            _context.Entry(bus).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(bus);
         }
 
         private bool BusExists(int id)

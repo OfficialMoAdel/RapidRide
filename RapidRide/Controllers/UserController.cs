@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RapidRide.Entities;
 using static RapidRide.Entities.User;
-using RapidRide.NewFolder;
+using RapidRide.Service;
 
 namespace RapidRide.Controllers
 {
@@ -206,7 +206,8 @@ namespace RapidRide.Controllers
             var folderPath = Path.Combine(_env.WebRootPath, "ProfilePictures");
             Directory.CreateDirectory(folderPath);
 
-            var fileName = Path.GetRandomFileName() + Path.GetExtension(file.FileName);
+            var fileName = "user_" + userId.ToString() + Path.GetExtension(file.FileName);
+
             var filePath = Path.Combine(folderPath, fileName);
 
             using (var stream = System.IO.File.Create(filePath))

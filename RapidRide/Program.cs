@@ -11,23 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 var key = Encoding.ASCII.GetBytes("your secret key here");
 
 // Add services to the container.
-builder.Services.AddScoped<RapidRide.NewFolder.AuthService>();
+builder.Services.AddScoped<RapidRide.Service.AuthService>();
+builder.Services.AddScoped<RapidRide.Service.RechargeCardService>();
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-/*
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("http://localhost:7228");
-        policy.WithMethods("GET", "POST", "DELETE", "PUT");
-        policy.AllowAnyHeader(); // <--- list the allowed headers here
-        policy.AllowAnyOrigin();
-    });
-});*/
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -59,12 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-/*app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.WebRootPath, "ProfilePictures")),
-    RequestPath = "/ProfilePictures"
-});*/
+
 var webRootPath = builder.Environment.WebRootPath;
 if (webRootPath == null)
 {

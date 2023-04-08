@@ -15,10 +15,11 @@ namespace RapidRide.Entities
 
         public string? Email { get; set; }
         public int? NationalId { get; set; }
-        public byte[]? ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
         public string? Address { get; set; }
         public string? City { get; set; }
-        public int? Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public bool? IsActive { get; set; }
         public ICollection<Trip>? Trips { get; set; }
         public ICollection<Message>? Messages { get; set; }

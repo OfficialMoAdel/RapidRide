@@ -15,6 +15,18 @@ namespace RapidRide.Controllers
         {
             _context = context;
         }
+        [HttpGet("{walletId}")]
+        public IActionResult GetWithdrawalsByWalletId(int walletId)
+        {
+            var withdrawals = _context.Withdrawals.Where(w => w.WalletId == walletId).ToList();
+
+            if (withdrawals == null || withdrawals.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(withdrawals);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Withdrawal>> PostWithdrawal(Withdrawal withdrawal)

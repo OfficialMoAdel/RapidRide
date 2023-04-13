@@ -25,6 +25,9 @@ namespace RapidRide.Entities
         public byte[] PasswordSalt { get; set; }
         public bool? IsActive { get; set; }
         public string? station { get; set; }
+        public int? WalletId { get; set; }
+        [ForeignKey("WalletId")]
+        public Wallet? Wallet { get; set; }
         public ICollection<Trip> Trips { get; set; }
         public ICollection<Booking> Bookings { get; set; }
     }

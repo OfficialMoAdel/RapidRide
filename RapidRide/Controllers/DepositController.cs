@@ -16,22 +16,58 @@ namespace RapidRide.Controllers
         {
             _context = context;
         }
-
-        [HttpPost]
-        public async Task<IActionResult> MakeDeposit(Deposit deposit)
+        [HttpGet("api/deposit/{walletId}")]
+        public IActionResult GetDepositsByWalletId(int walletId)
         {
-            var wallet = await _context.Wallets.FindAsync(deposit.WalletId);
+            var deposits = _context.Deposits.Where(d => d.WalletId == walletId).ToList();
 
-            if (wallet == null)
+            if (deposits == null || deposits.Count == 0)
             {
                 return NotFound();
             }
 
-            wallet.Balance += deposit.Amount;
-            _context.Deposits.Add(deposit);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return Ok(deposits);
         }
+
+        [HttpPost]
+        public IActionResult RechargeWallet(string rechargeCardNumber, int userId)
+        {
+            if (ModelState.IsValid)
+            {
+                // Verify the recharge card number
+                RechargeCard rechargeCard = _context.RechargeCards.FirstOrDefault(rc => rc.Number == rechargeCardNumber && rc.IsActive);
+
+                if (rechargeCard != null)
+                {
+                    // Get the user wallet (assuming the user's ID is stored in a variable called userId)
+                    Wallet userWallet = _context.Wallets.FirstOrDefault(w => w.UserId == userId);
+
+                    // Update the wallet balance
+                    userWallet.Balance += float.Parse(rechargeCard.Category);
+                    rechargeCard.IsActive = false;
+                    rechargeCard.DepositId = userWallet.WalletId;
+
+                    // Create a new deposit record
+                    Deposit newDeposit = new Deposit()
+                    {
+                        Amount = float.Parse(rechargeCard.Category),
+                        Date = DateTime.Now,
+                        WalletId = userWallet.WalletId
+                    };
+
+                    _context.Deposits.Add(newDeposit);
+                    _context.SaveChanges();
+                    return Ok(new { message = "Success", balance = userWallet.Balance, deposit = newDeposit.Amount });
+                    //  return RedirectToAction("Success"); // Redirect to the success page
+                }
+                else
+                {
+                    ModelState.AddModelError("RechargeCardNumber", "Invalid recharge card number.");
+                }
+            }
+
+            return BadRequest(ModelState); // Return validation errors as JSON
+        }
+
     }
 }

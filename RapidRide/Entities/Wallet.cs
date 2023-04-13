@@ -14,6 +14,12 @@ namespace RapidRide.Entities
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public User? User { get; set; }
+        [ForeignKey("CarId")]
+        public int CarId { get; set; }
+        public Car? Car { get; set; }
+        [ForeignKey("BusId")]
+        public int BusId { get; set; }
+        public Bus Bus { get; set; }
 
         public ICollection<Deposit>? Deposits { get; set; }
         public ICollection<Withdrawal>? Withdrawals { get; set; }

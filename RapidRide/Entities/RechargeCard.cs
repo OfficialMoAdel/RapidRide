@@ -7,7 +7,7 @@
         public string Number { get; set; }
         public bool IsActive { get; set; }
         public DateTime Date { get; set; }
-        public int? WalletId { get; set; }
-        public virtual Wallet? Wallet { get; set; }
+        public int? DepositId { get; set; }
+        public Deposit? Deposit { get; set; }
     }
 }

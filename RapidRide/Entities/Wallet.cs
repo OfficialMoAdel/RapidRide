@@ -17,8 +17,6 @@ namespace RapidRide.Entities
 
         public ICollection<Deposit>? Deposits { get; set; }
         public ICollection<Withdrawal>? Withdrawals { get; set; }
-        public virtual ICollection<RechargeCard> RechargeCards { get; set; }
-
     }
 
 }

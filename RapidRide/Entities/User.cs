@@ -1,8 +1,5 @@
-﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace RapidRide.Entities
 {
@@ -20,7 +17,6 @@ namespace RapidRide.Entities
         public string? City { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        //public int? Password { get; set; }
         public bool? IsActive { get; set; }
         public string? PaymentMethod { get; set; }
         public int? WalletId { get; set; }
@@ -35,41 +31,6 @@ namespace RapidRide.Entities
         public User()
         {
         }
-        /*
-                public User(string email, string phoneNumber, string password)
-                {
-                    Email = email;
-                    PhoneNumber = phoneNumber;
-                    CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
-                    PasswordHash = passwordHash;
-                    PasswordSalt = passwordSalt;
-                }
-
-                // Helper method to create salt and hash password
-                private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-                {
-                    using (var sha256 = SHA256.Create())
-                    {
-                        passwordSalt = new byte[32];
-                        using (var rng = new RNGCryptoServiceProvider())
-                        {
-                            rng.GetBytes(passwordSalt);
-                        }
-                        var saltedPassword = $"{Convert.ToBase64String(passwordSalt)}{password}";
-                        passwordHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
-                    }
-                }
-
-                // Helper method to hash password with given salt
-                public string HashPassword(string password)
-                {
-                    using (var sha256 = SHA256.Create())
-                    {
-                        var saltedPassword = $"{Convert.ToBase64String(PasswordSalt)}{password}";
-                        var hashedPassword = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
-                        return Convert.ToBase64String(hashedPassword);
-                    }
-                }*/
         public class UserRegistrationModel
         {
             public string Email { get; set; }

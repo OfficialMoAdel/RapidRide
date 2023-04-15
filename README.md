@@ -34,7 +34,8 @@ The API provides the following endpoints:
 [Description of authentication method used by API]
 
 ## Database Schema
-![alt text](https://drive.google.com/file/d/1ccAacp2nSCIfJ9vDxsDPfVZmWnAifRkf/view?usp=sharing)
+![Ssms_OblqE6Lszq](https://user-images.githubusercontent.com/61437026/232258960-b320532d-2c3a-400a-93ca-f64691a3c6ea.png)
+
 [Schema of SQL Server database used by API]
 
 
